@@ -1,0 +1,63 @@
+[gd_scene load_steps=10 format=2]
+
+[ext_resource path="res://images/_312c2dca-06c9-4335-aeb5-c55e5cb05dd0.jpg" type="Texture" id=1]
+[ext_resource path="res://Fonts/ModernWarfare-OV7KP.ttf" type="DynamicFontData" id=2]
+[ext_resource path="res://StartButton.gd" type="Script" id=3]
+[ext_resource path="res://Fonts/HalloweenSlimePersonalUse-4B80D.otf" type="DynamicFontData" id=4]
+[ext_resource path="res://images/icons8-start/a32b3cdf-59d9-4500-923c-71d052c278f8-0.png" type="Texture" id=5]
+
+[sub_resource type="Theme" id=1]
+
+[sub_resource type="DynamicFont" id=2]
+size = 45
+font_data = ExtResource( 2 )
+
+[sub_resource type="AnimatedTexture" id=3]
+flags = 4
+frame_0/texture = ExtResource( 5 )
+
+[sub_resource type="DynamicFont" id=4]
+size = 100
+font_data = ExtResource( 4 )
+
+[node name="HomeScreen" type="Node"]
+
+[node name="TextureRect" type="TextureRect" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_right = 530.0
+margin_bottom = 145.0
+rect_scale = Vector2( 0.72, 0.5 )
+texture = ExtResource( 1 )
+flip_h = true
+
+[node name="StartButton" type="Button" parent="."]
+margin_left = 26.0
+margin_top = 404.0
+margin_right = 318.0
+margin_bottom = 465.0
+theme = SubResource( 1 )
+custom_fonts/font = SubResource( 2 )
+text = "Start"
+script = ExtResource( 3 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Sprite" type="Sprite" parent="StartButton"]
+position = Vector2( 28, 31 )
+texture = SubResource( 3 )
+
+[node name="Label" type="Label" parent="."]
+margin_left = 124.0
+margin_top = 173.0
+margin_right = 672.0
+margin_bottom = 263.0
+custom_colors/font_color = Color( 0.992157, 1, 0, 1 )
+custom_colors/font_outline_modulate = Color( 0.976471, 0.752941, 0.752941, 1 )
+custom_colors/font_color_shadow = Color( 0.980392, 0.980392, 0.980392, 1 )
+custom_fonts/font = SubResource( 4 )
+text = "rest in peace"
+uppercase = true
+
+[connection signal="pressed" from="StartButton" to="StartButton" method="_on_StartButton_pressed"]

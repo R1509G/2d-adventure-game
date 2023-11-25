@@ -1,51 +1,67 @@
 extends KinematicBody2D
 
-# Declare member variables here. Examples:
-# var a = 2
-# var b = "text"
-var screen_size
 var speed = 5000
-var gravity = 98  # Adjust gravity to suit your game
-
+var gravity = 98
 var velocity = Vector2.ZERO
+var initial_position = 99
 
-# Called when the node enters the scene tree for the first time.
+
 func _ready():
-	screen_size = get_viewport_rect().size
+	get_viewport_rect().size 
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _physics_process(delta):
+
+func update_score():
+	var score = round(position.x) - initial_position
+	
+	if score > State.distance_traveled:
+		State.distance_traveled = score
+		$Score.text = "Distance: " + str(score)
+
+func handle_movement():
 	var movement = Vector2.ZERO
-
-	if Input.is_action_pressed("move_right"):
-		movement.x += 1
-	if Input.is_action_pressed("move_left"):
-		movement.x -= 1
-	if Input.is_action_just_pressed("jump") :
-		movement.y -=  83
+	
+	movement.x = Input.get_action_strength("move_right") - Input.get_action_strength("move_left")
 		
-
+	
+	if Input.is_action_just_pressed("space"):
+		movement.y -= 53
+	
 	if movement.length() > 0:
 		$AnimatedSprite.play()
 	else:
 		$AnimatedSprite.stop()
-	
-	if movement.x != 0:
-		$AnimatedSprite.animation = "run"
-		$AnimatedSprite.flip_h = movement.x < 0
-	else:
-		$AnimatedSprite.animation = "stand"
-		
-	
-		
+
+	return movement
+
+func handle_attack():
+	if Input.is_action_just_pressed("left_click"):
+		$AnimatedSprite.animation = "attack"
+		$AnimatedSprite.set_frame(3)
+
+
+func handle_animation(movement):
+		if movement.x != 0:
+			$AnimatedSprite.animation = "run"
+			$AnimatedSprite.flip_h = movement.x < 0
+		else:
+			$AnimatedSprite.animation = "stand" if is_on_floor()  else "jump"  
+			
+func apply_gravity(delta):
 	velocity.y += gravity * delta
+
 	if is_on_floor():
 		velocity.y = 0
-	
-	if velocity.y > 2:
-		$AnimatedSprite.animation = "jump"
 
-
+func _physics_process(delta):
+	var movement = handle_movement()
+	 
+	handle_animation(movement)
+	handle_attack()
+	apply_gravity(delta)
+	update_score()
 	move_and_slide(velocity + movement * speed * delta, Vector2.UP)
 
-	position.x = clamp(position.x, 0, screen_size.x)
+func _on_PauseButton_pressed():
+	get_tree().paused = true
+	$PauseButton.hide()
+	$MenuScreen.show_menu()
