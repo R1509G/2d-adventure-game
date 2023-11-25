@@ -1,5 +1,5 @@
 extends Node
 
 
-var isBackgroundMusicOn  = true
+var isBackgroundMusicOn  = false
 var distance_traveled = 0

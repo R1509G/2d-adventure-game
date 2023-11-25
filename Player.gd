@@ -34,7 +34,7 @@ func handle_movement():
 	return movement
 
 func handle_attack():
-	if Input.is_action_just_pressed("left_click"):
+	if Input.is_action_pressed("left_click"):
 		$AnimatedSprite.animation = "attack"
 		$AnimatedSprite.set_frame(3)
 
@@ -54,12 +54,13 @@ func apply_gravity(delta):
 
 func _physics_process(delta):
 	var movement = handle_movement()
-	 
+	
 	handle_animation(movement)
 	handle_attack()
 	apply_gravity(delta)
 	update_score()
 	move_and_slide(velocity + movement * speed * delta, Vector2.UP)
+
 
 func _on_PauseButton_pressed():
 	get_tree().paused = true
