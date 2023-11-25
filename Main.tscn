@@ -1,4 +1,4 @@
-[gd_scene load_steps=58 format=2]
+[gd_scene load_steps=59 format=2]
 
 [ext_resource path="res://images/rpg_sprite_sheet_vol1.png" type="Texture" id=1]
 [ext_resource path="res://images/R.png" type="Texture" id=2]
@@ -25,6 +25,7 @@
 [ext_resource path="res://Enemy.gd" type="Script" id=23]
 [ext_resource path="res://images/rock.png" type="Texture" id=24]
 [ext_resource path="res://Main.gd" type="Script" id=25]
+[ext_resource path="res://Gameover.gd" type="Script" id=26]
 
 [sub_resource type="RectangleShape2D" id=81]
 extents = Vector2( 56.5, 34.5 )
@@ -739,7 +740,7 @@ font_data = ExtResource( 7 )
 size = 30
 font_data = ExtResource( 7 )
 
-[node name="Main" type="Node"]
+[node name="Main" type="Node2D"]
 script = ExtResource( 25 )
 
 [node name="Level1Background" type="Sprite" parent="."]
@@ -853,6 +854,10 @@ custom_fonts/font = SubResource( 82 )
 text = "Distance: 0"
 align = 1
 
+[node name="PlayerHealth" type="Node2D" parent="."]
+unique_name_in_owner = true
+position = Vector2( 264, 47 )
+
 [node name="MenuScreen" type="Node2D" parent="."]
 pause_mode = 2
 script = ExtResource( 8 )
@@ -936,7 +941,91 @@ custom_fonts/font = SubResource( 72 )
 text = "settings"
 uppercase = true
 
+[node name="Gameover" type="Node2D" parent="."]
+pause_mode = 2
+position = Vector2( -652, 225 )
+script = ExtResource( 26 )
+
+[node name="ColorRect" type="ColorRect" parent="Gameover"]
+margin_left = 654.0
+margin_top = -227.0
+margin_right = 835.0
+margin_bottom = 258.0
+rect_scale = Vector2( 4, 1 )
+color = Color( 1, 1, 1, 0.247059 )
+
+[node name="ColorRect2" type="ColorRect" parent="Gameover"]
+pause_mode = 2
+margin_left = 869.0
+margin_top = -161.0
+margin_right = 1171.0
+margin_bottom = 220.0
+color = Color( 0.596078, 0.243137, 0.227451, 0.803922 )
+
+[node name="RetryButton" type="Button" parent="Gameover/ColorRect2"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -80.0
+margin_top = -68.0
+margin_right = 250.0
+margin_bottom = -10.0
+rect_scale = Vector2( 0.5, 0.7 )
+custom_fonts/font = SubResource( 61 )
+text = "retry"
+
+[node name="Sprite" type="Sprite" parent="Gameover/ColorRect2/RetryButton"]
+position = Vector2( 34, 30 )
+texture = ExtResource( 12 )
+
+[node name="HomeButton" type="Button" parent="Gameover/ColorRect2"]
+margin_left = 73.0
+margin_top = 281.0
+margin_right = 397.0
+margin_bottom = 339.0
+rect_scale = Vector2( 0.5, 0.7 )
+custom_fonts/font = SubResource( 62 )
+text = "Home"
+
+[node name="Sprite" type="Sprite" parent="Gameover/ColorRect2/HomeButton"]
+position = Vector2( 40, 28.5714 )
+scale = Vector2( 1.29167, 0.946429 )
+texture = ExtResource( 13 )
+
+[node name="MusicButton" type="Button" parent="Gameover/ColorRect2"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -79.0
+margin_top = 14.0
+margin_right = 251.0
+margin_bottom = 72.0
+rect_scale = Vector2( 0.5, 0.7 )
+custom_fonts/font = SubResource( 61 )
+text = "music"
+
+[node name="Sprite" type="Sprite" parent="Gameover/ColorRect2/MusicButton"]
+position = Vector2( 34, 31.4286 )
+scale = Vector2( 1.04167, 0.916667 )
+texture = ExtResource( 15 )
+
+[node name="Label" type="Label" parent="Gameover"]
+margin_left = 917.0
+margin_top = -104.0
+margin_right = 1124.0
+margin_bottom = -79.0
+custom_colors/font_color = Color( 0, 0.243137, 0.886275, 1 )
+custom_fonts/font = SubResource( 72 )
+text = "game over"
+uppercase = true
+
+[connection signal="hit_by_enemy" from="Enemy" to="Gameover" method="_on_Enemy_hit_by_enemy"]
 [connection signal="pressed" from="PauseButton" to="." method="_on_PauseButton_pressed"]
 [connection signal="pressed" from="MenuScreen/ColorRect2/ResumeButton" to="MenuScreen" method="_on_ResumeButton_pressed"]
 [connection signal="pressed" from="MenuScreen/ColorRect2/HomeButton" to="MenuScreen" method="_on_HomeButton_pressed"]
 [connection signal="pressed" from="MenuScreen/ColorRect2/MusicButton" to="MenuScreen" method="_on_MusicButton_pressed"]
+[connection signal="pressed" from="Gameover/ColorRect2/RetryButton" to="Gameover" method="_on_RetryButton_pressed"]
+[connection signal="pressed" from="Gameover/ColorRect2/HomeButton" to="MenuScreen" method="_on_HomeButton_pressed"]
+[connection signal="pressed" from="Gameover/ColorRect2/MusicButton" to="MenuScreen" method="_on_MusicButton_pressed"]

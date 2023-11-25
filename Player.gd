@@ -10,12 +10,11 @@ func _ready():
 	get_viewport_rect().size
 	
 
-
-
 func update_score():
+	print(position.x,State.distance_traveled)
 	var score = round(position.x) 
 	
-	if score > State.distance_traveled:
+	if score >= State.distance_traveled:
 		State.distance_traveled = score
 		get_node("%Score").text = "Distance: " + str(score)
 

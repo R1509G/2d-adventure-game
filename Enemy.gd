@@ -1,4 +1,5 @@
 extends KinematicBody2D
+signal hit_by_enemy
 
 var velocity = Vector2()
 var current_direction = "right"
@@ -28,7 +29,7 @@ func _physics_process(delta):
 		var collision = get_slide_collision(i)
 		if collision.collider.name == "Player":
 			$AnimatedSprite.animation = "attack"
-			get_node("%Player").position = Vector2.ZERO
+			emit_signal("hit_by_enemy")
 			
 
 

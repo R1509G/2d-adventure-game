@@ -15,10 +15,7 @@ func _ready():
 	
 
 func _process(delta):
-	var music_on_texture = preload("res://images/icons8-voice-48.png")
-	var music_off_texture = preload("res://images/icons8-no-audio-48.png")
-	
-	var new_texture = music_on_texture if State.isBackgroundMusicOn else music_off_texture
+	var new_texture = State.music_on_texture if State.isBackgroundMusicOn else State.music_off_texture
 	$ColorRect2/MusicButton/Sprite.texture = new_texture
 
 func _on_ResumeButton_pressed():
