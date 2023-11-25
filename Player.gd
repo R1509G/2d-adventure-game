@@ -3,26 +3,27 @@ extends KinematicBody2D
 var speed = 5000
 var gravity = 98
 var velocity = Vector2.ZERO
-var initial_position = 99
+var initial_position = position.x
 
 
 func _ready():
-	get_viewport_rect().size 
+	get_viewport_rect().size
+	
+
 
 
 func update_score():
-	var score = round(position.x) - initial_position
+	var score = round(position.x) 
 	
 	if score > State.distance_traveled:
 		State.distance_traveled = score
-		$Score.text = "Distance: " + str(score)
+		get_node("%Score").text = "Distance: " + str(score)
 
 func handle_movement():
 	var movement = Vector2.ZERO
 	
 	movement.x = Input.get_action_strength("move_right") - Input.get_action_strength("move_left")
-		
-	
+
 	if Input.is_action_just_pressed("space"):
 		movement.y -= 53
 	
@@ -37,6 +38,11 @@ func handle_attack():
 	if Input.is_action_pressed("left_click"):
 		$AnimatedSprite.animation = "attack"
 		$AnimatedSprite.set_frame(3)
+		for i in get_slide_count():
+			var collision = get_slide_collision(i)
+			if collision and collision.collider and collision.collider.name == "Enemy":
+					collision.collider.queue_free()
+	
 
 
 func handle_animation(movement):
@@ -56,13 +62,10 @@ func _physics_process(delta):
 	var movement = handle_movement()
 	
 	handle_animation(movement)
-	handle_attack()
 	apply_gravity(delta)
 	update_score()
+	handle_attack()
 	move_and_slide(velocity + movement * speed * delta, Vector2.UP)
+	#position.x = clamp(position.x, 0, 1000)
+	
 
-
-func _on_PauseButton_pressed():
-	get_tree().paused = true
-	$PauseButton.hide()
-	$MenuScreen.show_menu()

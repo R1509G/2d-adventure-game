@@ -15,24 +15,20 @@ func change_direction():
 		position.x += 1
 		$AnimatedSprite.flip_h = true
 	else:
-		position.x -=1 
+		position.x -= 1 
 		$AnimatedSprite.flip_h = false
 
 func _physics_process(delta):
 	$AnimatedSprite.play("run")
+	
 	change_direction()
 	move_and_slide(velocity)
+	
 	for i in get_slide_count():
 		var collision = get_slide_collision(i)
-		print("Collided with: ", collision.collider.position)
 		if collision.collider.name == "Player":
 			$AnimatedSprite.animation = "attack"
 			get_node("%Player").position = Vector2.ZERO
 			
-			
-		
-			
-
-	
 
 
