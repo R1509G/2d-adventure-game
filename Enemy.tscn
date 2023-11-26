@@ -1,0 +1,45 @@
+[gd_scene load_steps=11 format=2]
+
+[ext_resource path="res://images/Naruto Uzumaki - 4 Tailed Cloak (Overworld)/33_Asset_27.png" type="Texture" id=1]
+[ext_resource path="res://images/102_Asset_93.png" type="Texture" id=2]
+[ext_resource path="res://images/Naruto Uzumaki - 4 Tailed Cloak (Overworld)/49_Asset_15.png" type="Texture" id=3]
+[ext_resource path="res://images/124_Asset_134.png" type="Texture" id=4]
+[ext_resource path="res://images/Naruto Uzumaki - 4 Tailed Cloak (Overworld)/59_Asset_16.png" type="Texture" id=5]
+[ext_resource path="res://images/Naruto Uzumaki - 4 Tailed Cloak (Overworld)/17_Asset_20.png" type="Texture" id=6]
+[ext_resource path="res://images/Naruto Uzumaki - 4 Tailed Cloak (Overworld)/16_Asset_14.png" type="Texture" id=7]
+[ext_resource path="res://Enemy.gd" type="Script" id=8]
+
+[sub_resource type="AtlasTexture" id=98]
+flags = 4
+atlas = ExtResource( 4 )
+region = Rect2( 0, 0, 245, 152 )
+
+[sub_resource type="SpriteFrames" id=79]
+animations = [ {
+"frames": [ ExtResource( 2 ), SubResource( 98 ) ],
+"loop": true,
+"name": "attack",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 5 ), ExtResource( 3 ), ExtResource( 1 ), ExtResource( 6 ), ExtResource( 7 ) ],
+"loop": true,
+"name": "run",
+"speed": 5.0
+} ]
+
+[node name="Enemy" type="KinematicBody2D" groups=["enemies"]]
+physics_interpolation_mode = 1
+position = Vector2( 1625, 61 )
+script = ExtResource( 8 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="."]
+position = Vector2( 200, 337 )
+scale = Vector2( 0.423709, 0.386126 )
+frames = SubResource( 79 )
+animation = "run"
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
+polygon = PoolVector2Array( 161, 353, 163, 349, 163, 341, 173, 335, 231, 318, 241, 344, 202, 343, 172, 347 )

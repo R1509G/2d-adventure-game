@@ -2,7 +2,8 @@ extends KinematicBody2D
 signal hit_by_enemy
 
 var velocity = Vector2()
-var current_direction = "right"
+var directions = ["right", "left"]
+var current_direction = directions[randi() % directions.size()]
 var switch_directions = {
 	"right":"left",
 	"left":"right"

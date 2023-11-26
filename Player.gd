@@ -4,14 +4,15 @@ var speed = 5000
 var gravity = 98
 var velocity = Vector2.ZERO
 var initial_position = position.x
+var screen_size
 
 
 func _ready():
-	get_viewport_rect().size
+	screen_size = get_viewport_rect().size
+	
 	
 
 func update_score():
-	print(position.x,State.distance_traveled)
 	var score = round(position.x) 
 	
 	if score >= State.distance_traveled:
@@ -65,6 +66,7 @@ func _physics_process(delta):
 	update_score()
 	handle_attack()
 	move_and_slide(velocity + movement * speed * delta, Vector2.UP)
-	#position.x = clamp(position.x, 0, 1000)
+	position.y = clamp(position.y, 0, screen_size.y)
+	position.x = clamp(position.x, 0, 1100)
 	
 
